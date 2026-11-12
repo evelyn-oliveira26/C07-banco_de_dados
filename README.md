@@ -103,9 +103,9 @@ Os dados simulam um grupo de indústrias do Sul de Minas, com nomes, CNPJs e CPF
 | Consulta | Relacionamento | O que responde |
 |---|---|---|
 | 4.1 | **1:N** (Empresa → Setor → Empregado) | Cada empregado com seu setor, sua empresa e o nome do responsável |
-| 4.2 | **1:1** (Produto — Projeto) | Cada produto com o projeto do qual é o produto principal |
-| 4.3 | **N:M** (Empregado — Projeto) | Quem participa de cada projeto |
-| 4.4 | **N:M** (Produto — Producao) | Quantidade de produções, total fabricado e valor produzido de cada produto |
+| 4.2 | **1:1** (Produto - Projeto) | Cada produto com o projeto do qual é o produto principal |
+| 4.3 | **N:M** (Empregado - Projeto) | Quem participa de cada projeto |
+| 4.4 | **N:M** (Produto - Producao) | Quantidade de produções, total fabricado e valor produzido de cada produto |
 
 Na 4.1 e na 4.2 foi usado `LEFT JOIN` para não perder quem não tem par: empregados sem responsável e produtos sem projeto aparecem com `NULL`. Na 4.3 e na 4.4 o `JOIN` passa pela tabela intermediária, e a 4.4 agrupa por produto com `GROUP BY`, `COUNT` e `SUM`.
 

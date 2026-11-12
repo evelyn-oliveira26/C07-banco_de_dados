@@ -3,7 +3,7 @@
 -- Parte 2: implementação do modelo da parte 1
 --
 -- Integrantes: Evelyn Maria de Oliveira Silva  (686)
--- 				João Vitor Custódio             (764)
+--              João Vitor Custódio             (764)
 --
 --   1. Criação do banco e das tabelas
 --   2. Inserção dos dados
@@ -218,6 +218,7 @@ WHERE codigo_empregado = 8
   AND codigo_projeto = 5;
 
 -- 4. CONSULTAS COM JOIN (1:N, 1:1 e N:M)
+-- 4.1 Relacionamento 1:N (Empresa -> Setor -> Empregado)
 SELECT e.nome   AS empregado,
        e.cargo,
        s.nome   AS setor,
@@ -229,6 +230,7 @@ INNER JOIN Empresa emp ON emp.codigo_empresa = s.codigo_empresa
 LEFT JOIN Empregado r  ON r.codigo_empregado = e.codigo_responsavel
 ORDER BY emp.nome, s.nome, e.nome;
 
+-- 4.2 Relacionamento 1:1 (Produto - Projeto)
 SELECT p.nome  AS produto,
        p.categoria,
        p.valor,
@@ -238,6 +240,7 @@ FROM Produto p
 LEFT JOIN Projeto pj ON pj.codigo_produto = p.codigo_produto
 ORDER BY p.nome;
 
+-- 4.3 Relacionamento N:M (Empregado - Projeto)
 SELECT pj.nome AS projeto,
        e.nome  AS empregado,
        e.cargo
@@ -246,6 +249,7 @@ INNER JOIN Projeto pj  ON pj.codigo_projeto = pp.codigo_projeto
 INNER JOIN Empregado e ON e.codigo_empregado = pp.codigo_empregado
 ORDER BY pj.nome, e.nome;
 
+-- 4.4 Relacionamento N:M (Produto - Producao)
 SELECT p.nome                              AS produto,
        COUNT(pr.codigo_producao)           AS qtd_producoes,
        SUM(d.quantidade_produto)           AS total_fabricado,
@@ -387,7 +391,7 @@ CALL registrar_producao('2026-09-05', 'Manhã', 1, 1, 100);
 SELECT * FROM resumo_producao WHERE data = '2026-09-05';
 
 -- 9. USUÁRIOS E ROLE
-DROP USER IF EXISTS'carlos'@'localhost';
+DROP USER IF EXISTS 'carlos'@'localhost';
 DROP USER IF EXISTS 'marina'@'localhost';
 DROP ROLE IF EXISTS 'analista_producao';
 
@@ -412,7 +416,7 @@ SHOW GRANTS FOR 'analista_producao';
 SHOW GRANTS FOR 'carlos'@'localhost';
 SHOW GRANTS FOR 'marina'@'localhost';
 
--- Para testar, conecte como carlos (senha Carlos@2026) e executar:
-SELECT * FROM trabalho_bd.resumo_producao;      -- permitido
-SELECT * FROM trabalho_bd.empregado_publico;    -- permitido
-SELECT nome, salario FROM trabalho_bd.Empregado;   -- negado
+-- Para testar, conecte como carlos (senha Carlos@2026) e execute:
+-- SELECT * FROM trabalho_bd.resumo_producao;        -- permitido
+-- SELECT * FROM trabalho_bd.empregado_publico;      -- permitido
+-- SELECT nome, salario FROM trabalho_bd.Empregado;  -- negado
